@@ -3,6 +3,7 @@ import './globals.css';
 import LenisScroll from '@/components/LenisScroll';
 import QueryProvider from '@/components/QueryProvider';
 import { Toaster } from '@/components/ui/toaster';
+import LoadingOverlay from '@/components/LoadingOverlay';
 
 const inter = Inter({ subsets: ['latin'] });
 const montserrat = Montserrat({
@@ -24,10 +25,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
+            <head>
+                <link rel="preload" href="/cse.png" as="image" type="image/png" />
+                <link rel="preload" href="/cap.png" as="image" type="image/png" />
+            </head>
             <body
                 className={`${inter.className} ${montserrat.variable} ${bebasNeue.variable}`}
             >
                 <QueryProvider>
+                    <LoadingOverlay />
                     <LenisScroll>{children}</LenisScroll>
                     <Toaster />
                 </QueryProvider>

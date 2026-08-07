@@ -1,0 +1,185 @@
+/* Production Compositor-Driven Loading Overlay Styles */
+
+@keyframes overlay-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes spin-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes progress-fill-scale {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes enter-scale-gpu {
+  0% {
+    opacity: 0;
+    transform: scale3d(0.92, 0.92, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes enter-left-gpu {
+  0% {
+    opacity: 0;
+    transform: translate3d(-15px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes enter-right-gpu {
+  0% {
+    opacity: 0;
+    transform: translate3d(15px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes enter-cap-gpu {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -18px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes subtitle-sequence {
+  0%, 20% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  25%, 45% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+  50%, 70% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  75%, 95% {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.loader-overlay-root {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 3rem 1.5rem;
+  user-select: none;
+  overflow: hidden;
+  will-change: opacity;
+}
+
+.loader-overlay-root.is-fading {
+  animation: overlay-fade-out 0.35s ease-out forwards;
+  pointer-events: none;
+}
+
+.loader-spin-cw {
+  will-change: transform;
+  animation: spin-cw 12s linear infinite;
+}
+
+.loader-spin-ccw {
+  will-change: transform;
+  animation: spin-ccw 18s linear infinite;
+}
+
+.loader-progress-bar {
+  transform-origin: left center;
+  will-change: transform;
+  animation: progress-fill-scale 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.loader-enter-scale {
+  will-change: transform, opacity;
+  animation: enter-scale-gpu 0.3s ease-out forwards;
+}
+
+.loader-enter-left {
+  will-change: transform, opacity;
+  animation: enter-left-gpu 0.3s ease-out forwards;
+}
+
+.loader-enter-right {
+  will-change: transform, opacity;
+  animation: enter-right-gpu 0.3s ease-out forwards;
+}
+
+.loader-enter-cap {
+  will-change: transform, opacity;
+  animation: enter-cap-gpu 0.3s ease-out 0.05s forwards;
+}
+
+.loader-subtitle-anim {
+  will-change: transform, opacity;
+  animation: subtitle-sequence 0.7s linear forwards;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .loader-spin-cw,
+  .loader-spin-ccw,
+  .loader-subtitle-anim,
+  .loader-enter-scale,
+  .loader-enter-left,
+  .loader-enter-right,
+  .loader-enter-cap {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .loader-progress-bar {
+    animation: none !important;
+    transform: scaleX(1) !important;
+  }
+}
